@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 
 public class BlogsFragment extends Fragment {
   @Override
-  public View onCreateView(LayoutInflater inflater,
-                           @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = View.inflate(getActivity(), R.layout.blogs_fragment, null);
     return view;
   }

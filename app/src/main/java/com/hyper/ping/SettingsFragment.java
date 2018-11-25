@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 
 public class SettingsFragment extends Fragment {
   @Override
-  public View onCreateView(LayoutInflater inflater,
-                           @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = View.inflate(getActivity(), R.layout.settings_fragment, null);
     return view;
   }
