@@ -3,7 +3,6 @@ package com.hyper.ping;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,6 @@ public class MessagesFragment extends Fragment {
     messages.add(new MessageAbstract("Louis", date, "Hello Louis!"));
     messagesLV.setAdapter(new MessagesListViewAdapter(messages));
 
-
     return view;
   }
 
@@ -85,7 +83,7 @@ public class MessagesFragment extends Fragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         convertView = inflater.inflate(R.layout.message_item, null);
         viewHolder.sender = (TextView) convertView.findViewById(R.id.message_sender);
-        viewHolder.dateTime = (TextView) convertView.findViewById(R.id.message_datetime);
+        viewHolder.time = (TextView) convertView.findViewById(R.id.message_sent_time);
         viewHolder.message = (TextView) convertView.findViewById(R.id.message_abstract);
         convertView.setTag(viewHolder);
       }else{
@@ -93,7 +91,7 @@ public class MessagesFragment extends Fragment {
       }
 
       viewHolder.sender.setText(senders.get(position).sender);
-      viewHolder.dateTime.setText(senders.get(position).dateTime);
+      viewHolder.time.setText(senders.get(position).time);
       viewHolder.message.setText(senders.get(position).content);
 
       return convertView;
@@ -102,18 +100,18 @@ public class MessagesFragment extends Fragment {
 
   static class ViewHolder {
     TextView sender;
-    TextView dateTime;
+    TextView time;
     TextView message;
   }
 
   public class MessageAbstract {
     private String sender;
-    private String dateTime;
+    private String time;
     private String content;
 
-    public MessageAbstract(String sender, String dateTime, String content) {
+    public MessageAbstract(String sender, String time, String content) {
       this.sender = sender;
-      this.dateTime = dateTime;
+      this.time = time;
       this.content = content;
     }
   }

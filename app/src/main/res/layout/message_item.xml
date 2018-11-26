@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/message_sender_avator"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
@@ -16,7 +16,7 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:stretchColumns="0"
         android:layout_margin="5dp">
 
@@ -27,16 +27,16 @@
             <TextView
                 android:id="@+id/message_sender"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:gravity="start|center_vertical"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="text" />
 
             <TextView
-                android:id="@+id/message_datetime"
+                android:id="@+id/message_sent_time"
                 android:layout_width="150dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:gravity="center_vertical|end"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
@@ -50,7 +50,7 @@
             <TextView
                 android:id="@+id/message_abstract"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_span="2"
                 android:gravity="center_vertical|start"
                 android:paddingStart="5dp"

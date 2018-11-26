@@ -6,43 +6,70 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsFragment extends Fragment {
-  private ArrayList<TreeViewNode> topNodes;
-  private ArrayList<TreeViewNode> allNodes;
-
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = View.inflate(getActivity(), R.layout.contacts_fragment, null);
 
-    topNodes = new ArrayList<TreeViewNode>();
-    allNodes = new ArrayList<TreeViewNode>();
-    TreeViewNode node1= new TreeViewNode(0, TreeViewNode.NO_PARENT, "JiangSu", TreeViewNode.TOP_LEVEL, true, false);
-    TreeViewNode node2= new TreeViewNode(1, node1.getId(), "Suzhou", TreeViewNode.TOP_LEVEL + 1, true, false);
-    TreeViewNode node3= new TreeViewNode(2, node2.getId(), "SIP", TreeViewNode.TOP_LEVEL + 2, true, false);
-    TreeViewNode node4= new TreeViewNode(3, TreeViewNode.NO_PARENT, "Guangdong", TreeViewNode.TOP_LEVEL , true, false);
-    TreeViewNode node5= new TreeViewNode(4, node4.getId(), "Shenzhen", TreeViewNode.TOP_LEVEL + 1, true, false);
-    TreeViewNode node6= new TreeViewNode(5, node5.getId(), "Nanshan", TreeViewNode.TOP_LEVEL + 2, false, false);
-    topNodes.add(node1);
-    topNodes.add(node4);
-    allNodes.add(node1);
-    allNodes.add(node2);
-    allNodes.add(node3);
-    allNodes.add(node4);
-    allNodes.add(node5);
-    allNodes.add(node6);
+    ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.contacts);
+    ContactsAdapter adapter = new ContactsAdapter(getActivity());
 
-    //LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    //inflater = getActivity().getLayoutInflater();
+    final List<String> groups = new ArrayList<String>();
+    groups.add("Friends");
+    groups.add("Colleagues");
 
-    ListView contactsLV = (ListView) view.findViewById(R.id.contacts);
-    TreeViewAdapter treeViewAdapter = new TreeViewAdapter(topNodes, allNodes, inflater);
-    TreeViewNodeClickListener treeViewItemClickListener = new TreeViewNodeClickListener(treeViewAdapter);
-    contactsLV.setAdapter(treeViewAdapter);
-    contactsLV.setOnItemClickListener(treeViewItemClickListener);
+    final List<List<String>> children = new ArrayList<List<String>>();
+    List<String> item1 = new ArrayList<String>();
+    item1.add("Lucy");
+    item1.add("Tom");
+    children.add(item1);
+    List<String> item2 = new ArrayList<String>();
+    item2.add("Jason");
+    item2.add("Sam");
+    item2.add("Lily");
+
+    children.add(item2);
+
+    adapter.setData(groups, children);
+    expandableListView.setAdapter(adapter);
+
+
+    expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+      /**
+       * @param parent ExpandableListView
+       * @param v Groupview
+       * @param groupPosition
+       * @param id
+       * @return
+       */
+      @Override
+      public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        Toast.makeText(getActivity(), "Clicked：" + groups.get(groupPosition), Toast.LENGTH_SHORT).show();
+        return false;
+      }
+    });
+
+    expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+      /**
+       * @param parent ExpandableListView
+       * @param v Groupview
+       * @param groupPosition
+       * @param childPosition
+       * @param id
+       * @return
+       */
+      @Override
+      public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        Toast.makeText(getActivity(), "Clicked：" + children.get(groupPosition).get(childPosition), Toast.LENGTH_SHORT).show();
+        return false;
+      }
+    });
 
     return view;
   }
