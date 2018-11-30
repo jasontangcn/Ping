@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class BlogsFragment extends Fragment {
+public class VlogsFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = View.inflate(getActivity(), R.layout.blogs_fragment, null);
+    View view = View.inflate(getActivity(), R.layout.vlogs_fragment, null);
     return view;
   }
 }

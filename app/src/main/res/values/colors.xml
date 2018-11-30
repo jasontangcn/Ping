@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="light_gray">#9b9b9b</color>
-    <color name="green">#31c016</color>
+    <color name="viewpager_light_gray">#9b9b9b</color>
+    <color name="viewpager_green">#31c016</color>
 </resources>

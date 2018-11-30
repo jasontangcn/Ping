@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
           case R.id.navigation_contacts:
             viewPager.setCurrentItem(1);
             return true;
-          case R.id.navigation_blogs:
+          case R.id.navigation_vlogs:
             viewPager.setCurrentItem(2);
             return true;
           case R.id.navigation_settings:
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     final ArrayList<Fragment> fragments = new ArrayList<>(3);
     fragments.add(new MessagesFragment());
     fragments.add(new ContactsFragment());
-    fragments.add(new BlogsFragment());
+    fragments.add(new VlogsFragment());
     fragments.add(new SettingsFragment());
     FragmentPagerAdapter viewPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
       @Override

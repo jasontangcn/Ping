@@ -78,7 +78,7 @@ public class MessagesFragment extends Fragment {
     public View getView(int position, View convertView, ViewGroup parent) {
       ViewHolder viewHolder;
 
-      if(convertView == null){
+      if (convertView == null) {
         viewHolder = new ViewHolder();
         LayoutInflater inflater = getActivity().getLayoutInflater();
         convertView = inflater.inflate(R.layout.message_item, null);
@@ -86,8 +86,8 @@ public class MessagesFragment extends Fragment {
         viewHolder.time = (TextView) convertView.findViewById(R.id.message_sent_time);
         viewHolder.message = (TextView) convertView.findViewById(R.id.message_abstract);
         convertView.setTag(viewHolder);
-      }else{
-        viewHolder = (ViewHolder)convertView.getTag();
+      } else {
+        viewHolder = (ViewHolder) convertView.getTag();
       }
 
       viewHolder.sender.setText(senders.get(position).sender);
