@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:id="@+id/promptMoveUpLayout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/yuyin_voice_1">
+
+        <TextView
+            android:id="@+id/promptMoveUpCancelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="4dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="4dp"
+            android:text="@string/up_for_cancel"
+            android:textColor="#ffffffff"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/chatPromptReleaseLayout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/yuyin_cancel"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/promptReleaseCancelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="4dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="4dp"
+            android:text="@string/up_for_cancel"
+            android:textColor="#ffffffff"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
