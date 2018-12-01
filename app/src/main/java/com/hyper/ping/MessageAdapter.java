@@ -110,7 +110,7 @@ public class MessageAdapter extends BaseAdapter {
         //播放前重置。
         MediaManager.release();
         //开始实质播放
-        MediaManager.playSound(record.getPath(), new MediaPlayer.OnCompletionListener() {
+        MediaManager.playSound(record.getFilePath(), new MediaPlayer.OnCompletionListener() {
           @Override
           public void onCompletion(MediaPlayer mp) {
             anim.selectDrawable(0);//显示动画第一帧

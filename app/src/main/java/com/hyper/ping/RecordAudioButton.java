@@ -43,18 +43,11 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   //设置是否允许录音，是否有录音权限
   private boolean hasRecordPermission = true;
 
-  public boolean hasRecordPermission() {
-    return hasRecordPermission;
-  }
+  private RecordAudioListener recordAudioListener;
 
-  public void setHasRecordPermission(boolean hasRecordPermission) {
-    this.hasRecordPermission = hasRecordPermission;
-  }
-
-  @Override
-  public boolean isInEditMode() {
-    return true;
-  }
+  private static final int MSG_AUDIO_PREPARED = 0X110;
+  private static final int MSG_VOICE_CHANGE = 0X111;
+  private static final int MSG_DIALOG_DIMISS = 0X112;
 
   public RecordAudioButton(Context context) {
     this(context, null);
@@ -82,11 +75,17 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
 
   }
 
+  public boolean hasRecordPermission() {
+    return hasRecordPermission;
+  }
+
+  public void setHasRecordPermission(boolean hasRecordPermission) {
+    this.hasRecordPermission = hasRecordPermission;
+  }
+
   public interface RecordAudioListener {
     void onCompleted(float seconds, String filePath);
   }
-
-  private RecordAudioListener recordAudioListener;
 
   public void setRecordAudioListener(RecordAudioListener recordAudioListener) {
     this.recordAudioListener = recordAudioListener;
@@ -112,10 +111,6 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
       }
     }
   };
-
-  private static final int MSG_AUDIO_PREPARED = 0X110;
-  private static final int MSG_VOICE_CHANGE = 0X111;
-  private static final int MSG_DIALOG_DIMISS = 0X112;
 
   @SuppressLint("HandlerLeak")
   private final Handler stateHandler = new Handler() {
@@ -290,5 +285,10 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
 
   public void setMaxDuration(int maxDuration) {
     this.maxDuration = maxDuration;
+  }
+
+  @Override
+  public boolean isInEditMode() {
+    return true;
   }
 }

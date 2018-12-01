@@ -75,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
         recordAudioBTN.setRecordAudioListener((seconds, filePath) -> {
           AudioRecord record = new AudioRecord();
           record.setDuration((int) seconds <= 0 ? 1 : (int) seconds);
-          record.setPath(filePath);
+          record.setFilePath(filePath);
           record.setPlayed(false);
           audioRecords.add(record);
           messageAdapter.notifyDataSetChanged();

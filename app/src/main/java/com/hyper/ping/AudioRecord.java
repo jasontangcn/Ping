@@ -2,14 +2,10 @@ package com.hyper.ping;
 
 public class AudioRecord {
   private String id;
-  private String path;
+  private String filePath;
   private int duration;
-  private boolean isPlayed;//是否已经播放过
-  private boolean isPlaying;//是否正在播放
-
-  public boolean isPlaying() {
-    return isPlaying;
-  }
+  private boolean isPlayed;
+  private boolean isPlaying;
 
   public String getId() {
     return id;
@@ -19,20 +15,16 @@ public class AudioRecord {
     this.id = id;
   }
 
-  public void setPlaying(boolean playing) {
-    isPlaying = playing;
+  public String getFilePath() {
+    return this.filePath;
   }
 
-  public String getPath() {
-    return path;
-  }
-
-  public void setPath(String path) {
-    this.path = path;
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
   }
 
   public int getDuration() {
-    return duration;
+    return this.duration;
   }
 
   public void setDuration(int duration) {
@@ -40,15 +32,23 @@ public class AudioRecord {
   }
 
   public boolean isPlayed() {
-    return isPlayed;
+    return this.isPlayed;
   }
 
-  public void setPlayed(boolean played) {
-    isPlayed = played;
+  public boolean isPlaying() {
+    return this.isPlaying;
+  }
+
+  public void setPlaying(boolean isPlaying) {
+    this.isPlaying = isPlaying;
+  }
+
+  public void setPlayed(boolean isPlayed) {
+    this.isPlayed = isPlayed;
   }
 
   @Override
   public String toString() {
-    return "AudioRecord{" + "id='" + id + '\'' + ", path='" + path + '\'' + ", duration=" + duration + ", isPlayed=" + isPlayed + ", isPlaying=" + isPlaying + '}';
+    return "AudioRecord{" + "id='" + id + '\'' + ", filePath='" + filePath + '\'' + ", duration=" + duration + ", isPlayed=" + isPlayed + ", isPlaying=" + isPlaying + '}';
   }
 }
