@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
+  public static final String TAG = ChatActivity.class.getSimpleName();
+
   private ListView messagesLV;
   private RecordAudioButton recordAudioBTN;
   List<AudioRecord> audioRecords;
@@ -54,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
     List<AudioRecord> records = database.retrieveAudioRecords();
     if (records == null || records.isEmpty()) return;
     for (AudioRecord record : records) {
-      Log.e("wgy", "initAdapter: " + record.toString());
+      Log.e(ChatActivity.TAG, "AudioRecord: " + record.toString());
     }
     audioRecords.addAll(records);
     messageAdapter.notifyDataSetChanged();

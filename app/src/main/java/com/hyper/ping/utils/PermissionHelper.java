@@ -60,7 +60,6 @@ public class PermissionHelper {
 
     //没全部权限
     if (!hasPermissions(mContext, permissions)) {
-
       //需要向用户解释为什么申请这个权限
       boolean shouldShowRationale = false;
       for (String perm : permissions) {

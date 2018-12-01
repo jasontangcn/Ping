@@ -40,7 +40,6 @@
                     android:minWidth="90dp"
                     android:paddingLeft="24dp"
                     android:paddingRight="12dp" />
-                <!--信号栏-->
                 <LinearLayout
                     android:id="@+id/messageVoiceSingerLayout"
                     android:layout_width="13dp"
