@@ -8,12 +8,12 @@ public class ChatMessage {
   private String text;
   private String duration;
 
-  public ChatMessage(String name, String date, String text, boolean isComMsg) {
+  public ChatMessage(String name, String date, String text, boolean isIncomingMsg) {
     super();
     this.name = name;
     this.sendTime = date;
     this.text = text;
-    this.isIncomingMeg = isComMsg;
+    this.isIncomingMsg = isIncomingMsg;
   }
 
   public String getDuration() {
@@ -24,7 +24,7 @@ public class ChatMessage {
     this.duration = duration;
   }
 
-  private boolean isIncomingMeg = true;
+  private boolean isIncomingMsg = true;
 
   public String getName() {
     return name;
@@ -50,12 +50,12 @@ public class ChatMessage {
     this.text = text;
   }
 
-  public boolean getMsgType() {
-    return isIncomingMeg;
+  public boolean isIncomingMsg() {
+    return isIncomingMsg;
   }
 
-  public void setMsgType(boolean isIncomingMeg) {
-    isIncomingMeg = isIncomingMeg;
+  public void isIncomingMsg(boolean isIncomingMsg) {
+    this.isIncomingMsg = isIncomingMsg;
   }
 
   public ChatMessage() {

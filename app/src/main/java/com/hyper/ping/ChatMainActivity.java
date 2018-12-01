@@ -56,7 +56,7 @@ public class ChatMainActivity extends Activity implements OnClickListener {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.chat_activity);
+    setContentView(R.layout.chat_main_activity);
     // do not trigger soft keyboard
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -122,10 +122,10 @@ public class ChatMainActivity extends Activity implements OnClickListener {
       entity.setSendTime(dataArray[i]);
       if (i % 2 == 0) {
         entity.setName("Lucy");
-        entity.setMsgType(true);
+        entity.isIncomingMsg(true);
       } else {
         entity.setName("Sam");
-        entity.setMsgType(false);
+        entity.isIncomingMsg(false);
       }
 
       entity.setText(msgArray[i]);
@@ -153,7 +153,7 @@ public class ChatMainActivity extends Activity implements OnClickListener {
       ChatMessage entity = new ChatMessage();
       entity.setSendTime(getDate());
       entity.setName("Sam");
-      entity.setMsgType(false);
+      entity.isIncomingMsg(false);
       entity.setText(contString);
       messages.add(entity);
       messageAdapter.notifyDataSetChanged();
@@ -263,7 +263,7 @@ public class ChatMainActivity extends Activity implements OnClickListener {
           ChatMessage entity = new ChatMessage();
           entity.setSendTime(getDate());
           entity.setName("Sam");
-          entity.setMsgType(false);
+          entity.isIncomingMsg(false);
           entity.setDuration(time + "\"");
           entity.setText(recordName);
           messages.add(entity);

@@ -15,8 +15,8 @@ import java.util.List;
 public class ChatMessageAdapter extends BaseAdapter {
 
   public static interface IMsgViewType {
-    int IMVT_COM_MSG = 0;
-    int IMVT_TO_MSG = 1;
+    int IMVT_INCOMING_MSG = 0;
+    int IMVT_OUTGOING_MSG = 1;
   }
 
   private static final String TAG = ChatMessageAdapter.class.getSimpleName();
@@ -49,10 +49,10 @@ public class ChatMessageAdapter extends BaseAdapter {
   public int getItemViewType(int position) {
     ChatMessage entity = messages.get(position);
 
-    if (entity.getMsgType()) {
-      return IMsgViewType.IMVT_COM_MSG;
+    if (entity.isIncomingMsg()) {
+      return IMsgViewType.IMVT_INCOMING_MSG;
     } else {
-      return IMsgViewType.IMVT_TO_MSG;
+      return IMsgViewType.IMVT_OUTGOING_MSG;
     }
 
   }
@@ -62,13 +62,12 @@ public class ChatMessageAdapter extends BaseAdapter {
   }
 
   public View getView(int position, View convertView, ViewGroup parent) {
-
     final ChatMessage entity = messages.get(position);
-    boolean isComMsg = entity.getMsgType();
+    boolean isIncomingMsg = entity.isIncomingMsg();
 
     ViewHolder viewHolder = null;
     if (convertView == null) {
-      if (isComMsg) {
+      if (isIncomingMsg) {
         convertView = inflater.inflate(R.layout.chat_message_left, null);
       } else {
         convertView = inflater.inflate(R.layout.chat_message_right, null);
@@ -79,7 +78,7 @@ public class ChatMessageAdapter extends BaseAdapter {
       viewHolder.username = (TextView) convertView.findViewById(R.id.msgUsername);
       viewHolder.content = (TextView) convertView.findViewById(R.id.msgContent);
       viewHolder.duration = (TextView) convertView.findViewById(R.id.msgDuration);
-      viewHolder.isComMsg = isComMsg;
+      viewHolder.isIncomingMsg = isIncomingMsg;
 
       convertView.setTag(viewHolder);
     } else {
@@ -115,7 +114,7 @@ public class ChatMessageAdapter extends BaseAdapter {
     public TextView username;
     public TextView content;
     public TextView duration;
-    public boolean isComMsg = true;
+    public boolean isIncomingMsg;
   }
 
   /**
