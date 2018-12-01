@@ -8,22 +8,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-public class DialogManager {
+public class PromptManager {
   private Dialog dialog;
-
   private RelativeLayout promptMoveUpLayout;
   private TextView promptMoveUpCancelTV;
   private RelativeLayout promptReleaseLayout;
-
   private TextView promptReleaseCancelTV;
   private Context context;
 
-  public DialogManager(Context context) {
+  public PromptManager(Context context) {
     this.context = context;
   }
 
   public void showRecordingDialog() {
-    dialog = new Dialog(context, R.style.Theme_audioDialog);
+    dialog = new Dialog(context, R.style.audioPrompt);
     // 用LayoutInflater来引用布局
     LayoutInflater inflater = LayoutInflater.from(context);
     View view = inflater.inflate(R.layout.chat_prompt, null);
@@ -32,7 +30,7 @@ public class DialogManager {
     promptMoveUpCancelTV = (TextView) view.findViewById(R.id.promptMoveUpCancelTV);
     promptReleaseLayout = (RelativeLayout) view.findViewById(R.id.chatPromptReleaseLayout);
     promptReleaseCancelTV = (TextView) view.findViewById(R.id.promptReleaseCancelTV);
-
+    dialog.hide();
     dialog.show();
   }
 

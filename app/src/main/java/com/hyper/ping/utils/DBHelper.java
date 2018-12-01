@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
   @Override
   public void onCreate(SQLiteDatabase db) {
-    db.execSQL("create table audiorecords(id varchar(225), path varchar(225), duration int, isPlayed int)");// 0:true, 1：false
+    db.execSQL("create table messages(id int primary key autoincrement, isVoice int, isIncoming int, senderId varchar(225), sendTime varchar(225), content varchar(225), filePath varchar(225), duration int, isPlayed int)");// 0:true, 1：false
   }
 
   // 如果DATABASE_VERSION值被改为2,系统发现与现有数据库版本不同,即会调用onUpgrade

@@ -24,7 +24,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   // 正在录音标记
   private boolean isRecording = false;
   //录音对话框
-  private DialogManager dialogManager;
+  private PromptManager promptManager;
 
   private AudioManager audioManager;
 
@@ -56,7 +56,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   public RecordAudioButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
-    dialogManager = new DialogManager(getContext());
+    promptManager = new PromptManager(getContext());
     String dir = FileUtils.getRecordDir(this.context).toString();
     audioManager = AudioManager.getInstance(dir);
     audioManager.setAudioManagerListener(this);
@@ -84,7 +84,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   }
 
   public interface RecordAudioListener {
-    void onCompleted(float seconds, String filePath);
+    void onCompleted(float duration, String filePath);
   }
 
   public void setRecordAudioListener(RecordAudioListener recordAudioListener) {
@@ -118,7 +118,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
       switch (msg.what) {
         case MSG_AUDIO_PREPARED:
           // 显示应该是在audio end prepare之后回调
-          dialogManager.showRecordingDialog();
+          promptManager.showRecordingDialog();
           isRecording = true;
           new Thread(getVoiceLevel).start();
           // 需要开启一个线程来变换音量
@@ -126,13 +126,13 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
         case MSG_VOICE_CHANGE:
           // 剩余10s
           showRemainingTime();
-          dialogManager.updateVoiceLevel(audioManager.getVoiceLevel(7));
+          //promptManager.updateVoiceLevel(audioManager.getVoiceLevel(7));
           break;
         case MSG_DIALOG_DIMISS:
           break;
         case MSG_VOICE_STOP:
           timeout = true;//超时
-          dialogManager.dismiss();
+          promptManager.dismiss();
           audioManager.release();// release释放MediaRecorder
           recordAudioListener.onCompleted(duration, audioManager.getFilePath());
           reset();// 恢复标志位
@@ -140,8 +140,6 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
 
       }
     }
-
-    ;
   };
   //是否触发过震动
   boolean isVibrated;
@@ -152,16 +150,16 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
     if (remainingTime < countDownTime) {
       if (!isVibrated) {
         isVibrated = true;
-        shock();
+        vibrate();
       }
-      dialogManager.getPromptMoveUpCancelTV().setText("还可以说" + remainingTime + "秒  ");
+      promptManager.getPromptMoveUpCancelTV().setText("还可以说" + remainingTime + "秒  ");
     }
   }
 
   /*
    * 想设置震动大小可以通过改变pattern来设定，如果开启时间太短，震动效果可能感觉不到
    * */
-  private void shock() {
+  private void vibrate() {
     vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     long[] pattern = {100, 400, 100, 400};   // 停止 开启 停止 开启
     vibrator.vibrate(pattern, -1);           //重复两次上面的pattern 如果只想震动一次，index设为-1
@@ -203,12 +201,12 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
         }
         // 如果按的时间太短，还没准备好或者录制时间太短，就离开了，则显示这个dialog
         if (!isRecording || duration < 0.8f) {
-          dialogManager.tooShort();
+          promptManager.tooShort();
           audioManager.cancel();
           stateHandler.sendEmptyMessageDelayed(MSG_DIALOG_DIMISS, 1300);// 持续1.3s
         } else if (state == STATE_RECORDING) {//正常录制结束
           if (timeout) return super.onTouchEvent(event);//超时
-          dialogManager.dismiss();
+          promptManager.dismiss();
           audioManager.release();// release释放MediaRecorder
 
           if (recordAudioListener != null) {// 并且callbackActivity，保存录音
@@ -216,7 +214,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
           }
         } else if (state == STATE_WANT_TO_CANCEL) {
           audioManager.cancel();
-          dialogManager.dismiss();
+          promptManager.dismiss();
         }
         reset();// 恢复标志位
         break;
@@ -256,18 +254,19 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
           setText(context.getString(R.string.long_click_record));//长按录音
           break;
         case STATE_RECORDING:
-          setBackgroundColor(Color.rgb(0xcd, 0xcd, 0xcd));
+          //setBackgroundColor(Color.rgb(0xcd, 0xcd, 0xcd));
           setText(R.string.hang_up_finsh);//松开结束
           setTextColor(Color.WHITE);
+          //setBackgroundResource(R.drawable.chat_voice_btn_pressed);
           if (isRecording) {
             // 复写dialog.recording();
-            dialogManager.recording();
+            promptManager.recording();
           }
           break;
 
         case STATE_WANT_TO_CANCEL:
           setText(R.string.release_cancel);//松开取消
-          dialogManager.wantToCancel();
+          promptManager.wantToCancel();
           break;
 
       }

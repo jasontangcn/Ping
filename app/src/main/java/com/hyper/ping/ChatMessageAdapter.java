@@ -64,8 +64,7 @@ public class ChatMessageAdapter extends BaseAdapter {
   public View getView(int position, View convertView, ViewGroup parent) {
     final ChatMessage entity = messages.get(position);
     boolean isIncomingMsg = entity.isIncomingMsg();
-
-    ViewHolder viewHolder = null;
+    ViewHolder viewHolder;
     if (convertView == null) {
       if (isIncomingMsg) {
         convertView = inflater.inflate(R.layout.chat_message_left, null);
@@ -75,10 +74,10 @@ public class ChatMessageAdapter extends BaseAdapter {
 
       viewHolder = new ViewHolder();
       viewHolder.sendTime = (TextView) convertView.findViewById(R.id.msgSendTime);
-      viewHolder.username = (TextView) convertView.findViewById(R.id.msgUsername);
+      viewHolder.sender = (TextView) convertView.findViewById(R.id.msgSender);
       viewHolder.content = (TextView) convertView.findViewById(R.id.msgContent);
       viewHolder.duration = (TextView) convertView.findViewById(R.id.msgDuration);
-      viewHolder.isIncomingMsg = isIncomingMsg;
+      viewHolder.isIncoming = isIncomingMsg;
 
       convertView.setTag(viewHolder);
     } else {
@@ -87,34 +86,33 @@ public class ChatMessageAdapter extends BaseAdapter {
 
     viewHolder.sendTime.setText(entity.getSendTime());
 
-    if (entity.getText().contains(".amr")) {
+    if (entity.getContent().contains(".amr")) {
       viewHolder.content.setText("");
       viewHolder.content.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.chat_to_voice_playing, 0);
       viewHolder.duration.setText(entity.getDuration());
     } else {
-      viewHolder.content.setText(entity.getText());
+      viewHolder.content.setText(entity.getContent());
       viewHolder.content.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
       viewHolder.duration.setText("");
     }
     viewHolder.content.setOnClickListener(new OnClickListener() {
-
       public void onClick(View v) {
-        if (entity.getText().contains(".amr")) {
-          playMusic(android.os.Environment.getExternalStorageDirectory() + "/" + entity.getText());
+        if (entity.getContent().contains(".amr")) {
+          playMusic(android.os.Environment.getExternalStorageDirectory() + "/" + entity.getContent());
         }
       }
     });
-    viewHolder.username.setText(entity.getName());
+    viewHolder.sender.setText(entity.getSender());
 
     return convertView;
   }
 
   static class ViewHolder {
     public TextView sendTime;
-    public TextView username;
+    public TextView sender;
     public TextView content;
     public TextView duration;
-    public boolean isIncomingMsg;
+    public boolean isIncoming;
   }
 
   /**

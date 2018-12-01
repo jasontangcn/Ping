@@ -3,16 +3,19 @@ package com.hyper.ping;
 public class ChatMessage {
   private static final String TAG = ChatMessage.class.getSimpleName();
 
-  private String name;
+  private String sender;
   private String sendTime;
-  private String text;
+  private String content;
   private String duration;
 
-  public ChatMessage(String name, String date, String text, boolean isIncomingMsg) {
-    super();
-    this.name = name;
+  public ChatMessage() {
+
+  }
+
+  public ChatMessage(String sender, String date, String content, boolean isIncomingMsg) {
+    this.sender = sender;
     this.sendTime = date;
-    this.text = text;
+    this.content = content;
     this.isIncomingMsg = isIncomingMsg;
   }
 
@@ -26,12 +29,12 @@ public class ChatMessage {
 
   private boolean isIncomingMsg = true;
 
-  public String getName() {
-    return name;
+  public String getSender() {
+    return sender;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setSender(String sender) {
+    this.sender = sender;
   }
 
   public String getSendTime() {
@@ -42,12 +45,12 @@ public class ChatMessage {
     this.sendTime = sendTime;
   }
 
-  public String getText() {
-    return text;
+  public String getContent() {
+    return this.content;
   }
 
-  public void setText(String text) {
-    this.text = text;
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public boolean isIncomingMsg() {
@@ -56,8 +59,5 @@ public class ChatMessage {
 
   public void isIncomingMsg(boolean isIncomingMsg) {
     this.isIncomingMsg = isIncomingMsg;
-  }
-
-  public ChatMessage() {
   }
 }

@@ -35,8 +35,8 @@ public class ChatActivity extends AppCompatActivity {
   }
 
   private void initView() {
-    messagesLV = (ListView) findViewById(R.id.chatMessagesLV);
-    recordAudioBTN = (RecordAudioButton) findViewById(R.id.chatRecordVoiceBTN);
+    messagesLV = (ListView) findViewById(R.id.chatMessages);
+    recordAudioBTN = (RecordAudioButton) findViewById(R.id.chatRecordAudioBTN);
     // 设置不可见或者不想被点击
     // recordAudioBTN.setVisibility(View.GONE);//隐藏
     // recordAudioBTN.setCanRecord(false);//重写该方法，设置为不可点击
@@ -49,7 +49,7 @@ public class ChatActivity extends AppCompatActivity {
   }
 
   private void initAdapter() {
-    messageAdapter = new MessageAdapter(this, audioRecords);
+    //messageAdapter = new MessageAdapter(this, audioRecords);
     messagesLV.setAdapter(messageAdapter);
 
     //开始获取数据库数据
@@ -82,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
           messagesLV.setSelection(audioRecords.size() - 1);
 
           //添加到数据库
-          database.addAudioRecord(record);
+          //database.addAudioRecord(record);
         });
       }
 

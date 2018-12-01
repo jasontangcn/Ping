@@ -1,58 +1,61 @@
 package com.hyper.ping;
 
-import android.app.Activity;
+import android.Manifest;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.hyper.ping.utils.DBManager;
+import com.hyper.ping.utils.PermissionHelper;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ChatMainActivity extends Activity implements OnClickListener {
+public class ChatMainActivity extends AppCompatActivity implements OnClickListener {
   private static final String LOG_TAG = ChatMainActivity.class.getSimpleName();
   private Button backBTN;
 
-  private ListView conversationLV;
+  private ListView messagesLV;
 
-  private RelativeLayout sendMessageLayout;
+  private RelativeLayout textMessageLayout;
   private ImageView chatModeIV;
+  private boolean voiceMode = false;
   private EditText messageET;
-  private Button sendBTN;
+  private Button sendMessageBTN;
   private TextView speakTV;
 
-  private ChatMessageAdapter messageAdapter;
-  private List<ChatMessage> messages = new ArrayList<ChatMessage>();
+  private MessageAdapter messageAdapter;
+  private List<ChatMessageX> messages = new ArrayList<ChatMessageX>();
 
-  private boolean isTooShort = false;
+  private RecordAudioButton recordAudioBTN;
+
+  PermissionHelper permHelper;
+  private DBManager database;
+
+  /*
   private View chatVoiceLayout;
-  private LinearLayout recordProgressLayout, voiceRecordingLayout, voiceTooShortLayout;
+  private LinearLayout voiceRecordingLayout, recordProgressLayout, voiceCancelLayout, voiceTooShortLayout;
+  private ImageView volumeIV;
   private ImageView cancelVoiceHintIV, cancelVoiceIV;
   private SoundMeter soundMeter;
-  private LinearLayout voiceCancelLayout;
-  private ImageView volumeIV;
-  private boolean voiceMode = false;
+
   private boolean  voiceStarted;
   private Handler handler = new Handler();
   private String recordName;
   private long startRecordTime, endRecordTime;
+  private boolean isTooShort = false;
+  */
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -60,40 +63,45 @@ public class ChatMainActivity extends Activity implements OnClickListener {
     // do not trigger soft keyboard
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-    buildView();
-    prepareData();
+    initView();
+    initData();
+    initAdapter();
+    initListener();
   }
 
-  public void buildView() {
+  public void initView() {
     backBTN = (Button) findViewById(R.id.chatBackBTN);
     backBTN.setOnClickListener(this);
 
-    conversationLV = (ListView) findViewById(R.id.chatConversationLV);
+    messagesLV = (ListView) findViewById(R.id.chatMessages);
 
-    sendMessageLayout = (RelativeLayout) findViewById(R.id.chatSendMessageLayout);
+    textMessageLayout = (RelativeLayout) findViewById(R.id.chatTextMessageLayout);
     chatModeIV = (ImageView) this.findViewById(R.id.chatModeIV);
     messageET = (EditText) findViewById(R.id.chatMessageET);
-    sendBTN = (Button) findViewById(R.id.chatSendBTN);
-    sendBTN.setOnClickListener(this);
-    speakTV = (TextView) findViewById(R.id.chatSpeekTV);
+    sendMessageBTN = (Button) findViewById(R.id.chatSendMessageBTN);
+    sendMessageBTN.setOnClickListener(this);
+    //speakTV = (TextView) findViewById(R.id.chatSpeekTV);
+    recordAudioBTN = findViewById(R.id.chatRecordAudioBTN);
 
     chatModeIV.setOnClickListener(new OnClickListener() {
-
       public void onClick(View v) {
         if (voiceMode) {
-          speakTV.setVisibility(View.GONE);
-          sendMessageLayout.setVisibility(View.VISIBLE);
+          //speakTV.setVisibility(View.GONE);
+          recordAudioBTN.setVisibility(View.GONE);
+          textMessageLayout.setVisibility(View.VISIBLE);
           chatModeIV.setImageResource(R.drawable.chat_setmode_msg_btn_selector);
           voiceMode = false;
         } else {
-          speakTV.setVisibility(View.VISIBLE);
-          sendMessageLayout.setVisibility(View.GONE);
+          //speakTV.setVisibility(View.VISIBLE);
+          recordAudioBTN.setVisibility(View.VISIBLE);
+          textMessageLayout.setVisibility(View.GONE);
           chatModeIV.setImageResource(R.drawable.chat_setmode_voice_btn_selector);
           voiceMode = true;
         }
       }
     });
 
+    /*
     speakTV.setOnTouchListener(new OnTouchListener() {
       public boolean onTouch(View v, MotionEvent event) {
         return false;
@@ -101,45 +109,101 @@ public class ChatMainActivity extends Activity implements OnClickListener {
     });
 
     chatVoiceLayout = this.findViewById(R.id.chatVoiceLayout);
+    recordProgressLayout = (LinearLayout) this.findViewById(R.id.voiceProgressLayout);
     voiceRecordingLayout = (LinearLayout) this.findViewById(R.id.voiceRecordingLayout);
     volumeIV = (ImageView) this.findViewById(R.id.voiceVolumeIV);
-    recordProgressLayout = (LinearLayout) this.findViewById(R.id.voiceProgressLayout);
     cancelVoiceHintIV = (ImageView) this.findViewById(R.id.voiceCancelHintIV);
     voiceCancelLayout = (LinearLayout) this.findViewById(R.id.voiceCancelLayout);
     cancelVoiceIV = (ImageView) this.findViewById(R.id.voiceCancelIV);
     voiceTooShortLayout = (LinearLayout) this.findViewById(R.id.voiceTooShortLayout);
     soundMeter = new SoundMeter();
-
+    */
   }
 
   private String[] msgArray = new String[]{"Good morning, Sam.", "Good morning, Lucy.", "Did you meet Terry yesterday?", "No, actually.", "What happened?", "He was sick."};
-  private String[] dataArray = new String[]{"2012-10-31 18:00", "2012-10-31 18:10", "2012-10-31 18:11", "2012-10-31 18:20", "2012-10-31 18:30", "2012-10-31 18:35"};
-  private final static int COUNT = 6;
+  private String[] dateArray = new String[]{"2012-10-31 18:00", "2012-10-31 18:10", "2012-10-31 18:11", "2012-10-31 18:20", "2012-10-31 18:30", "2012-10-31 18:35"};
 
-  public void prepareData() {
-    for (int i = 0; i < COUNT; i++) {
-      ChatMessage entity = new ChatMessage();
-      entity.setSendTime(dataArray[i]);
+  public void initData() {
+    for (int i = 0; i < msgArray.length; i++) {
+      ChatMessageX entity = new ChatMessageX();
+      entity.setSendTime(dateArray[i]);
       if (i % 2 == 0) {
-        entity.setName("Lucy");
-        entity.isIncomingMsg(true);
+        entity.setSender("Lucy");
+        entity.setIncoming(true);
       } else {
-        entity.setName("Sam");
-        entity.isIncomingMsg(false);
+        entity.setSender("Sam");
+        entity.setIncoming(false);
       }
 
-      entity.setText(msgArray[i]);
+      entity.setContent(msgArray[i]);
       messages.add(entity);
     }
 
-    messageAdapter = new ChatMessageAdapter(this, messages);
-    conversationLV.setAdapter(messageAdapter);
+    //messageAdapter = new ChatMessageAdapter(this, messages);
+    //messagesLV.setAdapter(messageAdapter);
+  }
+
+  private void initAdapter() {
+    messageAdapter = new MessageAdapter(this, messages);
+    messagesLV.setAdapter(messageAdapter);
+    /*
+    //开始获取数据库数据
+    List<AudioRecord> records = database.retrieveAudioRecords();
+    if (records == null || records.isEmpty()) return;
+    for (AudioRecord record : records) {
+      Log.e(ChatActivity.TAG, "AudioRecord: " + record.toString());
+    }
+    audioRecords.addAll(records);
+    messageAdapter.notifyDataSetChanged();
+    messagesLV.setSelection(audioRecords.size() - 1);
+    */
+  }
+
+  private void initListener() {
+    recordAudioBTN.setHasRecordPermission(false);
+    // 授权处理
+    permHelper = new PermissionHelper(this);
+
+    permHelper.requestPermissions("请授予[录音]，[读写]权限，否则无法录音", new PermissionHelper.PermissionListener() {
+      @Override
+      public void doAfterGrand(String... permission) {
+        recordAudioBTN.setHasRecordPermission(true);
+        recordAudioBTN.setRecordAudioListener((duration, filePath) -> {
+          ChatMessageX msg = new ChatMessageX();
+          msg.setVoice(true);
+          msg.setSendTime(getDate());
+          msg.setSender("Sam");
+          msg.setDuration(String.valueOf((int) duration <= 0 ? 1 : (int) duration) + "\"");
+          msg.setFilePath(filePath);
+          msg.setPlayed(false);
+          messages.add(msg);
+          messageAdapter.notifyDataSetChanged();
+          messagesLV.setSelection(messages.size() - 1);
+
+          //添加到数据库
+          //database.addAudioRecord(record);
+        });
+      }
+
+      @Override
+      public void doAfterDenied(String... permission) {
+        recordAudioBTN.setHasRecordPermission(false);
+        Toast.makeText(ChatMainActivity.this, "请授权,否则无法录音", Toast.LENGTH_SHORT).show();
+      }
+    }, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+  }
+
+  //直接把参数交给PermissionHelper就行了
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    permHelper.handleRequestPermissionsResult(requestCode, permissions, grantResults);
   }
 
   public void onClick(View v) {
     switch (v.getId()) {
-      case R.id.chatSendBTN:
-        send();
+      case R.id.chatSendMessageBTN:
+        sendMessage();
         break;
       case R.id.chatBackBTN:
         finish();
@@ -147,18 +211,27 @@ public class ChatMainActivity extends Activity implements OnClickListener {
     }
   }
 
-  private void send() {
-    String contString = messageET.getText().toString();
-    if (contString.length() > 0) {
-      ChatMessage entity = new ChatMessage();
-      entity.setSendTime(getDate());
-      entity.setName("Sam");
-      entity.isIncomingMsg(false);
-      entity.setText(contString);
-      messages.add(entity);
+  public DBManager getDatabase() {
+    return database;
+  }
+
+  public void setDatabase(DBManager database) {
+    this.database = database;
+  }
+
+  private void sendMessage() {
+    String msgText = messageET.getText().toString();
+    if (msgText.length() > 0) {
+      ChatMessageX msg = new ChatMessageX();
+      msg.setSendTime(getDate());
+      msg.setSender("Sam");
+      msg.setVoice(false);
+      msg.setIncoming(false);
+      msg.setContent(msgText);
+      messages.add(msg);
       messageAdapter.notifyDataSetChanged();
       messageET.setText("");
-      conversationLV.setSelection(conversationLV.getCount() - 1);
+      messagesLV.setSelection(messagesLV.getCount() - 1);
     }
   }
 
@@ -177,6 +250,7 @@ public class ChatMainActivity extends Activity implements OnClickListener {
     return sbBuffer.toString();
   }
 
+  /*
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     if (!Environment.getExternalStorageDirectory().exists()) {
@@ -262,13 +336,13 @@ public class ChatMainActivity extends Activity implements OnClickListener {
           }
           ChatMessage entity = new ChatMessage();
           entity.setSendTime(getDate());
-          entity.setName("Sam");
+          entity.setSender("Sam");
           entity.isIncomingMsg(false);
           entity.setDuration(time + "\"");
-          entity.setText(recordName);
+          entity.setContent(recordName);
           messages.add(entity);
           messageAdapter.notifyDataSetChanged();
-          conversationLV.setSelection(conversationLV.getCount() - 1);
+          messagesLV.setSelection(messagesLV.getCount() - 1);
           chatVoiceLayout.setVisibility(View.GONE);
 
         }
@@ -357,4 +431,5 @@ public class ChatMainActivity extends Activity implements OnClickListener {
         break;
     }
   }
+  */
 }

@@ -57,7 +57,7 @@
             android:src="@drawable/chat_setmode_msg_btn_selector" />
 
         <RelativeLayout
-            android:id="@+id/chatSendMessageLayout"
+            android:id="@+id/chatTextMessageLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -65,7 +65,7 @@
             android:layout_toRightOf="@+id/chatModeIV">
 
             <Button
-                android:id="@+id/chatSendBTN"
+                android:id="@+id/chatSendMessageBTN"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
@@ -81,12 +81,27 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/chatSendBTN"
+                android:layout_toLeftOf="@id/chatSendMessageBTN"
                 android:background="@drawable/chat_login_edit"
                 android:singleLine="true"
                 android:textSize="18sp" />
         </RelativeLayout>
-
+        <com.hyper.ping.RecordAudioButton
+            android:id="@+id/chatRecordAudioBTN"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/chatModeIV"
+            android:background="@drawable/chat_send_btn_selector"
+            android:gravity="center"
+            android:text="@string/long_click_record"
+            android:textColor="#fff"
+            android:textSize="16dp"
+            android:visibility="gone"/>
+        <!--
         <TextView
             android:id="@+id/chatSpeekTV"
             android:layout_width="fill_parent"
@@ -100,10 +115,12 @@
             android:gravity="center"
             android:text="Press &amp; Speak"
             android:visibility="gone" />
+            -->
+
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/chatConversationLV"
+        android:id="@+id/chatMessages"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/chatFooterLayout"

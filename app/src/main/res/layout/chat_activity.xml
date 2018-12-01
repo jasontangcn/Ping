@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/chatMessagesLV"
+        android:id="@+id/chatMessages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -13,7 +13,7 @@
         android:listSelector="#0000" />
 
     <com.hyper.ping.RecordAudioButton
-        android:id="@+id/chatRecordVoiceBTN"
+        android:id="@+id/chatRecordAudioBTN"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="#cdcdcd"
