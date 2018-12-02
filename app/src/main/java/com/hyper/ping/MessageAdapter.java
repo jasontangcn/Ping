@@ -69,7 +69,7 @@ public class MessageAdapter extends BaseAdapter {
     MessageAdapter.ViewHolder viewHolder;
     LayoutInflater inflater = LayoutInflater.from(context);
     if (convertView == null) {
-      switch (getItemViewType(position)){
+      switch (getItemViewType(position)) {
         case MsgViewType.INCOMING_MSG:
           convertView = inflater.inflate(R.layout.chat_message_left, null);
           break;

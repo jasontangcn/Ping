@@ -52,7 +52,7 @@ public class ChatActivity2 extends Activity implements OnClickListener {
   private LinearLayout voiceCancelLayout;
   private ImageView volumeIV;
   private boolean voiceMode = false;
-  private boolean  voiceStarted;
+  private boolean voiceStarted;
   private Handler handler = new Handler();
   private String recordName;
   private long startRecordTime, endRecordTime;
@@ -198,9 +198,9 @@ public class ChatActivity2 extends Activity implements OnClickListener {
       int cancleX = cancelLoc[0];
 
       if (event.getAction() == MotionEvent.ACTION_DOWN && !voiceStarted) {
-        Log.e(LOG_TAG,"===== 1 =====");
+        Log.e(LOG_TAG, "===== 1 =====");
         if (event.getY() > speakY && event.getX() > speakX) {
-          Log.e(LOG_TAG,"===== 2 =====");
+          Log.e(LOG_TAG, "===== 2 =====");
           speakTV.setBackgroundResource(R.drawable.chat_voice_btn_pressed);
 
           chatVoiceLayout.setVisibility(View.VISIBLE);
@@ -226,12 +226,11 @@ public class ChatActivity2 extends Activity implements OnClickListener {
           voiceStarted = true;
         }
       } else if (event.getAction() == MotionEvent.ACTION_UP && voiceStarted) {
-        Log.e(LOG_TAG,"===== 3 =====");
+        Log.e(LOG_TAG, "===== 3 =====");
         speakTV.setBackgroundResource(R.drawable.chat_voice_btn);
 
-        if (event.getY() >= cancelY && event.getY() <= cancelY + voiceCancelLayout.getHeight() &&
-            event.getX() >= cancleX && event.getX() <= cancleX + voiceCancelLayout.getWidth()) {
-          Log.e(LOG_TAG,"===== 4 =====");
+        if (event.getY() >= cancelY && event.getY() <= cancelY + voiceCancelLayout.getHeight() && event.getX() >= cancleX && event.getX() <= cancleX + voiceCancelLayout.getWidth()) {
+          Log.e(LOG_TAG, "===== 4 =====");
           chatVoiceLayout.setVisibility(View.GONE);
           cancelVoiceHintIV.setVisibility(View.VISIBLE);
           voiceCancelLayout.setVisibility(View.GONE);
@@ -242,7 +241,7 @@ public class ChatActivity2 extends Activity implements OnClickListener {
             file.delete();
           }
         } else {
-          Log.e(LOG_TAG,"===== 5 =====");
+          Log.e(LOG_TAG, "===== 5 =====");
           voiceRecordingLayout.setVisibility(View.GONE);
           stop();
           //endRecordTime = SystemClock.currentThreadTimeMillis();
@@ -277,21 +276,20 @@ public class ChatActivity2 extends Activity implements OnClickListener {
         }
       }
       if (event.getY() < speakY) {
-        Log.e(LOG_TAG,"===== 6 =====");
+        Log.e(LOG_TAG, "===== 6 =====");
         Animation smallAnim = AnimationUtils.loadAnimation(this, R.anim.chat_cancel_record_small);
         Animation bigAnim = AnimationUtils.loadAnimation(this, R.anim.chat_cancel_record_big);
         cancelVoiceHintIV.setVisibility(View.GONE);
         voiceCancelLayout.setVisibility(View.VISIBLE);
         voiceCancelLayout.setBackgroundResource(R.drawable.chat_voice_cancel_bg);
-        if (event.getY() >= cancelY && event.getY() <= cancelY + voiceCancelLayout.getHeight() &&
-            event.getX() >= cancleX && event.getX() <= cancleX + voiceCancelLayout.getWidth()) {
-          Log.e(LOG_TAG,"===== 7 =====");
+        if (event.getY() >= cancelY && event.getY() <= cancelY + voiceCancelLayout.getHeight() && event.getX() >= cancleX && event.getX() <= cancleX + voiceCancelLayout.getWidth()) {
+          Log.e(LOG_TAG, "===== 7 =====");
           voiceCancelLayout.setBackgroundResource(R.drawable.chat_voice_cancel_bg_focused);
           cancelVoiceIV.startAnimation(smallAnim);
           cancelVoiceIV.startAnimation(bigAnim);
         }
       } else {
-        Log.e(LOG_TAG,"===== 8 =====");
+        Log.e(LOG_TAG, "===== 8 =====");
         cancelVoiceHintIV.setVisibility(View.VISIBLE);
         voiceCancelLayout.setVisibility(View.GONE);
         voiceCancelLayout.setBackgroundResource(0);
