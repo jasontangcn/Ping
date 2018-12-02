@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-public class VoicePromptManager {
+public class AudioPromptManager {
   private Dialog dialog;
   private RelativeLayout promptMoveUpLayout;
   private TextView promptMoveUpCancelTV;
@@ -16,7 +16,7 @@ public class VoicePromptManager {
   private TextView promptReleaseCancelTV;
   private Context context;
 
-  public VoicePromptManager(Context context) {
+  public AudioPromptManager(Context context) {
     this.context = context;
   }
 

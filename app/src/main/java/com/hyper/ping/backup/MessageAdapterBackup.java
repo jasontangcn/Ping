@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.hyper.ping.MediaManager;
 import com.hyper.ping.R;
-import com.hyper.ping.utils.CommonsUtils;
+import com.hyper.ping.utils.MiscUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class MessageAdapterBackup extends BaseAdapter {
     }
     //更改并显示录音条长度
     RelativeLayout.LayoutParams ps = (RelativeLayout.LayoutParams) viewHolder.voiceLine.getLayoutParams();
-    ps.width = CommonsUtils.getVoiceLineWight(context, record.getDuration());
+    ps.width = MiscUtil.getVoiceLineWight(context, record.getDuration());
     viewHolder.voiceLine.setLayoutParams(ps); //更改语音长条长度
 
     //开始设置监听

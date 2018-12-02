@@ -9,7 +9,7 @@ import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.hyper.ping.utils.FileUtils;
+import com.hyper.ping.utils.MiscUtil;
 
 public class RecordAudioButton extends android.support.v7.widget.AppCompatButton implements AudioManager.AudioManagerListener {
   private static final int STATE_NORMAL = 1;
@@ -24,7 +24,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   // 正在录音标记
   private boolean isRecording = false;
   //录音对话框
-  private VoicePromptManager promptManager;
+  private AudioPromptManager promptManager;
 
   private AudioManager audioManager;
 
@@ -56,8 +56,8 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   public RecordAudioButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
-    promptManager = new VoicePromptManager(getContext());
-    String dir = FileUtils.getRecordDir(this.context).toString();
+    promptManager = new AudioPromptManager(getContext());
+    String dir = MiscUtil.getRecordDir(this.context).toString();
     audioManager = AudioManager.getInstance(dir);
     audioManager.setAudioManagerListener(this);
 
@@ -126,7 +126,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
         case MSG_VOICE_CHANGE:
           // 剩余10s
           showRemainingTime();
-          //promptManager.updateVoiceLevel(audioManager.getVoiceLevel(7));
+          promptManager.updateVoiceLevel(audioManager.getVoiceLevel(7));
           break;
         case MSG_DIALOG_DIMISS:
           break;

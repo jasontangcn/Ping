@@ -105,6 +105,7 @@ public class AudioManager {
       Log.i(AudioManager.TAG, Log.getStackTraceString(e));
     }
     mediaRecorder.release();
+    prepared = false;
     mediaRecorder = null;
   }
 
