@@ -3,6 +3,7 @@ package com.hyper.ping;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageAdapter extends BaseAdapter {
-  List<ChatMessageX> messages;
+  public static interface MsgViewType {
+    int INCOMING_MSG = 0;
+    int OUTGOING_MSG = 1;
+  }
+
+  List<ChatMessage> messages;
   Context context;
   List<AnimationDrawable> animations;
   int pos = -1;//标记当前录音索引，默认没有播放任何一个
 
-  public MessageAdapter(Context context, List<ChatMessageX> messages) {
+  public MessageAdapter(Context context, List<ChatMessage> messages) {
     this.context = context;
     this.messages = messages;
     this.animations = new ArrayList<>();
@@ -40,22 +46,40 @@ public class MessageAdapter extends BaseAdapter {
     return position;
   }
 
+  public int getItemViewType(int position) {
+    ChatMessage msg = messages.get(position);
+
+    if (msg.isIncoming()) {
+      return MsgViewType.INCOMING_MSG;
+    } else {
+      return MsgViewType.OUTGOING_MSG;
+    }
+
+  }
+
+  public int getViewTypeCount() {
+    return 2;
+  }
+
   @Override
   public View getView(final int position, View convertView, ViewGroup parent) {
-    final ChatMessageX msg = messages.get(position);
-
+    final ChatMessage msg = messages.get(position);
+    Log.e(MediaManager.class.getSimpleName(), msg.toString());
     boolean isIncoming = msg.isIncoming();
     MessageAdapter.ViewHolder viewHolder;
     LayoutInflater inflater = LayoutInflater.from(context);
     if (convertView == null) {
-      if (isIncoming) {
-        convertView = inflater.inflate(R.layout.chat_message_left, null);
-      } else {
-        convertView = inflater.inflate(R.layout.chat_message_right, null);
+      switch (getItemViewType(position)){
+        case MsgViewType.INCOMING_MSG:
+          convertView = inflater.inflate(R.layout.chat_message_left, null);
+          break;
+        case MsgViewType.OUTGOING_MSG:
+          convertView = inflater.inflate(R.layout.chat_message_right, null);
+          break;
       }
       viewHolder = new MessageAdapter.ViewHolder();
-      viewHolder.sendTime = (TextView) convertView.findViewById(R.id.msgSendTime);
       viewHolder.sender = (TextView) convertView.findViewById(R.id.msgSender);
+      viewHolder.sendTime = (TextView) convertView.findViewById(R.id.msgSendTime);
       viewHolder.content = (TextView) convertView.findViewById(R.id.msgContent);
       viewHolder.duration = (TextView) convertView.findViewById(R.id.msgDuration);
       viewHolder.read = (ImageView) convertView.findViewById(R.id.mesageReadIV);
@@ -64,12 +88,12 @@ public class MessageAdapter extends BaseAdapter {
       viewHolder = (MessageAdapter.ViewHolder) convertView.getTag();
     }
 
+    viewHolder.sender.setText(msg.getSender());
     viewHolder.sendTime.setText(msg.getSendTime());
-
     if (msg.isVoice()) {
       viewHolder.content.setText("");
       viewHolder.content.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.chat_to_voice_playing, 0);
-      viewHolder.duration.setText(msg.getDuration());
+      viewHolder.duration.setText(msg.getDuration() + "''");
     } else {
       viewHolder.content.setText(msg.getContent());
       viewHolder.content.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -83,7 +107,7 @@ public class MessageAdapter extends BaseAdapter {
           msg.setPlayed(true);
           notifyDataSetChanged();
           //这里更新数据库小红点。这里不知道为什么可以强转建议复习复习基础~
-          //((ChatActivity) context).getDatabase().updateAudioRecord(record);
+          //((ChatActivityBackup) context).getDatabase().updateAudioRecord(record);
 
           //处理点击正在播放的语音时，可以停止；再次点击时重新播放。
           if (pos == position) {
@@ -112,7 +136,6 @@ public class MessageAdapter extends BaseAdapter {
         }
       }
     });
-    viewHolder.sender.setText(msg.getSender());
 
     if (msg.isVoice() && !msg.isPlayed()) {
       viewHolder.read.setVisibility(View.VISIBLE);
@@ -124,7 +147,7 @@ public class MessageAdapter extends BaseAdapter {
   }
 
   private void resetData() {
-    for (ChatMessageX msg : messages) {
+    for (ChatMessage msg : messages) {
       msg.setPlaying(false);//保证在第二次点击该语音栏时当作没有“不是在播放状态”。
     }
   }
@@ -165,7 +188,7 @@ public class MessageAdapter extends BaseAdapter {
     }
 
 
-    final AudioRecord record = audioRecords.get(position);
+    final AudioRecordBackup record = audioRecords.get(position);
     //设置显示时长
     viewHolder.duration.setText(record.getDuration() <= 0 ? 1 + "''" : record.getDuration() + "''");
     if (!record.isPlayed()) {
@@ -187,7 +210,7 @@ public class MessageAdapter extends BaseAdapter {
         record.setPlayed(true);
         notifyDataSetChanged();
         //这里更新数据库小红点。这里不知道为什么可以强转建议复习复习基础~
-        ((ChatActivity) context).getDatabase().updateAudioRecord(record);
+        ((ChatActivityBackup) context).getDatabase().updateAudioRecord(record);
 
         final AnimationDrawable anim = (AnimationDrawable) ieaLlSinger.getBackground();
         //重置动画
@@ -229,7 +252,7 @@ public class MessageAdapter extends BaseAdapter {
   }
 
   private void resetData() {
-    for (AudioRecord record : audioRecords) {
+    for (AudioRecordBackup record : audioRecords) {
       record.setPlaying(false);//保证在第二次点击该语音栏时当作没有“不是在播放状态”。
     }
   }

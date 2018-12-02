@@ -24,7 +24,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   // 正在录音标记
   private boolean isRecording = false;
   //录音对话框
-  private PromptManager promptManager;
+  private VoicePromptManager promptManager;
 
   private AudioManager audioManager;
 
@@ -56,7 +56,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
   public RecordAudioButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
-    promptManager = new PromptManager(getContext());
+    promptManager = new VoicePromptManager(getContext());
     String dir = FileUtils.getRecordDir(this.context).toString();
     audioManager = AudioManager.getInstance(dir);
     audioManager.setAudioManagerListener(this);
@@ -209,7 +209,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
           promptManager.dismiss();
           audioManager.release();// release释放MediaRecorder
 
-          if (recordAudioListener != null) {// 并且callbackActivity，保存录音
+          if (recordAudioListener != null) {
             recordAudioListener.onCompleted(duration, audioManager.getFilePath());
           }
         } else if (state == STATE_WANT_TO_CANCEL) {

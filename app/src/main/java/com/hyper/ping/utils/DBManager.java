@@ -5,12 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hyper.ping.AudioRecord;
-import com.hyper.ping.ChatMessageX;
+import com.hyper.ping.backup.AudioRecordBackup;
+import com.hyper.ping.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class DBManager {
   public static final String TAG = DBManager.class.getSimpleName();
@@ -24,7 +23,7 @@ public class DBManager {
     // 所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里
   }
 
-  public void addAudioRecord(ChatMessageX message) {
+  public void addAudioRecord(ChatMessage message) {
     //record.setId(UUID.randomUUID().toString());
     db = helper.getWritableDatabase();
     db.beginTransaction();
@@ -38,7 +37,7 @@ public class DBManager {
   }
 
 
-  public void updateAudioRecord(AudioRecord record) {
+  public void updateAudioRecord(AudioRecordBackup record) {
     db = helper.getWritableDatabase();
     ContentValues values = new ContentValues();
     values.put("isPlayed", record.isPlayed() ? 0 : 1);
@@ -48,7 +47,7 @@ public class DBManager {
   }
 
 
-  public void deleteAudioRecord(AudioRecord record) {
+  public void deleteAudioRecord(AudioRecordBackup record) {
     db = helper.getWritableDatabase();
     db.delete("messages", "id = ?", new String[]{record.getId()});
     db.close();
@@ -60,12 +59,12 @@ public class DBManager {
    *
    * @return List<Person>
    */
-  public List<AudioRecord> retrieveAudioRecords() {
+  public List<AudioRecordBackup> retrieveAudioRecords() {
     db = helper.getWritableDatabase();
-    ArrayList<AudioRecord> records = new ArrayList<AudioRecord>();
+    ArrayList<AudioRecordBackup> records = new ArrayList<AudioRecordBackup>();
     Cursor c = db.rawQuery("SELECT * FROM messages", null);
     while (c.moveToNext()) {
-      AudioRecord record = new AudioRecord();
+      AudioRecordBackup record = new AudioRecordBackup();
       record.setId(c.getString(c.getColumnIndex("id")));
       record.setFilePath(c.getString(c.getColumnIndex("path")));
       record.setDuration(c.getInt(c.getColumnIndex("duration")));

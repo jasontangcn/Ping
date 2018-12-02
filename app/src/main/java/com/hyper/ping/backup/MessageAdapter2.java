@@ -1,4 +1,4 @@
-package com.hyper.ping;
+package com.hyper.ping.backup;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -10,25 +10,27 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.hyper.ping.R;
+
 import java.util.List;
 
-public class ChatMessageAdapter extends BaseAdapter {
+public class MessageAdapter2 extends BaseAdapter {
 
   public static interface IMsgViewType {
     int IMVT_INCOMING_MSG = 0;
     int IMVT_OUTGOING_MSG = 1;
   }
 
-  private static final String TAG = ChatMessageAdapter.class.getSimpleName();
+  private static final String TAG = MessageAdapter2.class.getSimpleName();
 
-  private List<ChatMessage> messages;
+  private List<ChatMessage2> messages;
 
   private Context context;
 
   private LayoutInflater inflater;
   private MediaPlayer mediaPlayer = new MediaPlayer();
 
-  public ChatMessageAdapter(Context context, List<ChatMessage> messages) {
+  public MessageAdapter2(Context context, List<ChatMessage2> messages) {
     this.context = context;
     this.messages = messages;
     this.inflater = LayoutInflater.from(context);
@@ -47,7 +49,7 @@ public class ChatMessageAdapter extends BaseAdapter {
   }
 
   public int getItemViewType(int position) {
-    ChatMessage entity = messages.get(position);
+    ChatMessage2 entity = messages.get(position);
 
     if (entity.isIncomingMsg()) {
       return IMsgViewType.IMVT_INCOMING_MSG;
@@ -62,7 +64,7 @@ public class ChatMessageAdapter extends BaseAdapter {
   }
 
   public View getView(int position, View convertView, ViewGroup parent) {
-    final ChatMessage entity = messages.get(position);
+    final ChatMessage2 entity = messages.get(position);
     boolean isIncomingMsg = entity.isIncomingMsg();
     ViewHolder viewHolder;
     if (convertView == null) {
@@ -86,23 +88,23 @@ public class ChatMessageAdapter extends BaseAdapter {
 
     viewHolder.sendTime.setText(entity.getSendTime());
 
-    if (entity.getContent().contains(".amr")) {
+    if (entity.getText().contains(".amr")) {
       viewHolder.content.setText("");
       viewHolder.content.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.chat_to_voice_playing, 0);
       viewHolder.duration.setText(entity.getDuration());
     } else {
-      viewHolder.content.setText(entity.getContent());
+      viewHolder.content.setText(entity.getText());
       viewHolder.content.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
       viewHolder.duration.setText("");
     }
     viewHolder.content.setOnClickListener(new OnClickListener() {
       public void onClick(View v) {
-        if (entity.getContent().contains(".amr")) {
-          playMusic(android.os.Environment.getExternalStorageDirectory() + "/" + entity.getContent());
+        if (entity.getText().contains(".amr")) {
+          playMusic(android.os.Environment.getExternalStorageDirectory() + "/" + entity.getText());
         }
       }
     });
-    viewHolder.sender.setText(entity.getSender());
+    viewHolder.sender.setText(entity.getName());
 
     return convertView;
   }

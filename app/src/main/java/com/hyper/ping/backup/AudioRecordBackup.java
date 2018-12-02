@@ -1,6 +1,6 @@
-package com.hyper.ping;
+package com.hyper.ping.backup;
 
-public class AudioRecord {
+public class AudioRecordBackup {
   private String id;
   private String filePath;
   private int duration;
@@ -49,6 +49,6 @@ public class AudioRecord {
 
   @Override
   public String toString() {
-    return "AudioRecord{" + "id='" + id + '\'' + ", filePath='" + filePath + '\'' + ", duration=" + duration + ", isPlayed=" + isPlayed + ", isPlaying=" + isPlaying + '}';
+    return "AudioRecordBackup{" + "id='" + id + '\'' + ", filePath='" + filePath + '\'' + ", duration=" + duration + ", isPlayed=" + isPlayed + ", isPlaying=" + isPlaying + '}';
   }
 }
