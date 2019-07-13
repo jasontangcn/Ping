@@ -117,13 +117,13 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener {
     */
   }
 
-  private String[] msgArray = new String[]{"Good morning, Sam.", "Good morning, Lucy.", "Did you meet Terry yesterday?", "No, actually.", "What happened?", "He was sick."};
-  private String[] dateArray = new String[]{"2012-10-31 18:00", "2012-10-31 18:10", "2012-10-31 18:11", "2012-10-31 18:20", "2012-10-31 18:30", "2012-10-31 18:35"};
+  private String[] msgs = new String[]{"Good morning, Sam.", "Good morning, Lucy.", "Did you meet Terry yesterday?", "No, actually.", "What happened?", "He was sick."};
+  private String[] dates = new String[]{"2012-10-31 18:00", "2012-10-31 18:10", "2012-10-31 18:11", "2012-10-31 18:20", "2012-10-31 18:30", "2012-10-31 18:35"};
 
   public void initData() {
-    for (int i = 0; i < msgArray.length; i++) {
+    for (int i = 0; i < msgs.length; i++) {
       ChatMessage msg = new ChatMessage();
-      msg.setSendTime(dateArray[i]);
+      msg.setSendTime(dates[i]);
       if (i % 2 == 0) {
         msg.setSender("Lucy");
         msg.setIncoming(true);
@@ -132,7 +132,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener {
         msg.setIncoming(false);
       }
 
-      msg.setContent(msgArray[i]);
+      msg.setContent(msgs[i]);
       messages.add(msg);
     }
 
