@@ -9,7 +9,7 @@
         android:id="@+id/promptMoveUpLayout"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/yuyin_voice_1">
+        android:background="@drawable/voice_volume_1">
 
         <TextView
             android:id="@+id/promptMoveUpCancelTV"
@@ -32,7 +32,7 @@
         android:id="@+id/chatPromptReleaseLayout"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/yuyin_cancel"
+        android:background="@drawable/voice_cancel"
         android:visibility="gone">
 
         <TextView

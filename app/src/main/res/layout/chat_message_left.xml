@@ -62,7 +62,7 @@
             android:layout_height="8dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
-            android:src="@drawable/yuyin_tixing_red"
+            android:src="@drawable/voice_red"
             android:layout_toRightOf="@id/msgDuration"
             android:layout_alignBaseline="@id/msgDuration"
             android:visibility="visible" />

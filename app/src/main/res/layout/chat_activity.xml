@@ -86,6 +86,7 @@
                 android:singleLine="true"
                 android:textSize="18sp" />
         </RelativeLayout>
+
         <com.hyper.ping.RecordAudioButton
             android:id="@+id/chatRecordAudioBTN"
             android:layout_width="match_parent"
@@ -116,7 +117,6 @@
             android:text="Press &amp; Speak"
             android:visibility="gone" />
             -->
-
     </RelativeLayout>
 
     <ListView

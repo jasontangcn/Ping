@@ -47,7 +47,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:background="@drawable/anim_yuyin_sign"
+                    android:background="@drawable/anim_voice_sign"
                     android:orientation="horizontal" />
             </RelativeLayout>
 
@@ -67,7 +67,7 @@
                 android:layout_height="8dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="4dp"
-                android:src="@drawable/yuyin_tixing_red"
+                android:src="@drawable/voice_red"
                 android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>

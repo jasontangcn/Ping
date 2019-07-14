@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
     <item
-        android:drawable="@drawable/yuyin_sign3"
+        android:drawable="@drawable/voice_sign3"
         android:duration="500"></item>
     <item
-        android:drawable="@drawable/yuyin_sign1"
+        android:drawable="@drawable/voice_sign1"
 
         android:duration="500"></item>
     <item
-        android:drawable="@drawable/yuyin_sign2"
+        android:drawable="@drawable/voice_sign2"
 
         android:duration="500"></item>
 

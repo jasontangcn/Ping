@@ -44,7 +44,7 @@ public class AudioPromptManager {
 
       promptMoveUpLayout.setVisibility(View.VISIBLE);
       promptMoveUpCancelTV.setVisibility(View.VISIBLE);
-      promptMoveUpLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.yuyin_voice_1));
+      promptMoveUpLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.voice_volume_1));
       promptMoveUpCancelTV.setText(R.string.up_for_cancel);
     }
   }
@@ -58,7 +58,7 @@ public class AudioPromptManager {
       promptMoveUpCancelTV.setVisibility(View.GONE);
       promptReleaseLayout.setVisibility(View.VISIBLE);
       promptReleaseCancelTV.setVisibility(View.VISIBLE);
-      promptReleaseLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.yuyin_cancel));
+      promptReleaseLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.voice_cancel));
       promptReleaseCancelTV.setText(R.string.want_to_cancle);
       //promptReleaseCancelTV.setBackgroundColor(context.getResources().getColor(R.color.colorRedBg));
     }
@@ -71,7 +71,7 @@ public class AudioPromptManager {
       promptReleaseCancelTV.setVisibility(View.VISIBLE);
       promptMoveUpLayout.setVisibility(View.GONE);
       promptMoveUpCancelTV.setVisibility(View.GONE);
-      promptReleaseLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.yuyin_gantanhao));
+      promptReleaseLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.voice_sigh));
       promptReleaseCancelTV.setText(R.string.time_too_short);
     }
 
