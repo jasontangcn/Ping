@@ -84,19 +84,21 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener {
       public void onClick(View v) {
         if (voiceMode) {
           //speakTV.setVisibility(View.GONE);
+          chatModeIV.setImageResource(R.drawable.chat_setmode_msg_btn_selector);
           recordAudioBTN.setVisibility(View.GONE);
           textMessageLayout.setVisibility(View.VISIBLE);
-          chatModeIV.setImageResource(R.drawable.chat_setmode_msg_btn_selector);
           voiceMode = false;
         } else {
+          chatModeIV.setImageResource(R.drawable.chat_setmode_voice_btn_selector);
           //speakTV.setVisibility(View.VISIBLE);
           recordAudioBTN.setVisibility(View.VISIBLE);
           textMessageLayout.setVisibility(View.GONE);
-          chatModeIV.setImageResource(R.drawable.chat_setmode_voice_btn_selector);
           voiceMode = true;
         }
       }
     });
+
+
 
     /*
     speakTV.setOnTouchListener(new OnTouchListener() {
@@ -115,6 +117,17 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener {
     voiceTooShortLayout = (LinearLayout) this.findViewById(R.id.voiceTooShortLayout);
     soundMeter = new SoundMeter();
     */
+  }
+
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.chatSendTextMessageBTN:
+        sendTextMessage();
+        break;
+      case R.id.chatBackBTN:
+        finish();
+        break;
+    }
   }
 
   private String[] msgs = new String[]{"Good morning, Sam.", "Good morning, Lucy.", "Did you meet Terry yesterday?", "No, actually.", "What happened?", "He was sick."};
@@ -196,16 +209,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener {
     permHelper.handleRequestPermissionsResult(requestCode, permissions, grantResults);
   }
 
-  public void onClick(View v) {
-    switch (v.getId()) {
-      case R.id.chatSendTextMessageBTN:
-        sendTextMessage();
-        break;
-      case R.id.chatBackBTN:
-        finish();
-        break;
-    }
-  }
+
 
   public DBManager getDatabase() {
     return database;

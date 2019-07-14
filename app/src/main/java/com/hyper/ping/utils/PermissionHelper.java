@@ -30,7 +30,7 @@ public class PermissionHelper {
 
   private static final int REQUEST_PERMISSION_CODE = 1000;
 
-  private Object mContext;
+  private Object context;
 
   private PermissionListener mListener;
 
@@ -38,7 +38,7 @@ public class PermissionHelper {
 
   public PermissionHelper(@NonNull Object object) {
     checkCallingObjectSuitability(object);
-    this.mContext = object;
+    this.context = object;
 
   }
 
@@ -59,23 +59,23 @@ public class PermissionHelper {
     mPermissionList = Arrays.asList(permissions);
 
     //没全部权限
-    if (!hasPermissions(mContext, permissions)) {
+    if (!hasPermissions(context, permissions)) {
       //需要向用户解释为什么申请这个权限
       boolean shouldShowRationale = false;
       for (String perm : permissions) {
-        shouldShowRationale = shouldShowRationale || shouldShowRequestPermissionRationale(mContext, perm);
+        shouldShowRationale = shouldShowRationale || shouldShowRequestPermissionRationale(context, perm);
       }
 
       if (shouldShowRationale) {
         showMessageOKCancel(hintMessage, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
-            executePermissionsRequest(mContext, permissions, REQUEST_PERMISSION_CODE);
+            executePermissionsRequest(context, permissions, REQUEST_PERMISSION_CODE);
 
           }
         });
       } else {
-        executePermissionsRequest(mContext, permissions, REQUEST_PERMISSION_CODE);
+        executePermissionsRequest(context, permissions, REQUEST_PERMISSION_CODE);
       }
     } else if (mListener != null) { //有全部权限
       mListener.doAfterGrand(permissions);
@@ -146,8 +146,8 @@ public class PermissionHelper {
   private static boolean shouldShowRequestPermissionRationale(@NonNull Object object, @NonNull String perm) {
     if (object instanceof Activity) {
       return ActivityCompat.shouldShowRequestPermissionRationale((Activity) object, perm);
-    } else if (object instanceof Fragment) {
-      return ((Fragment) object).shouldShowRequestPermissionRationale(perm);
+    } else if (object instanceof android.support.v4.app.Fragment) {
+      return ((android.support.v4.app.Fragment) object).shouldShowRequestPermissionRationale(perm);
     } else if (object instanceof Fragment) {
       return ((Fragment) object).shouldShowRequestPermissionRationale(perm);
     } else {
@@ -214,7 +214,7 @@ public class PermissionHelper {
   }
 
   public void showMessageOKCancel(CharSequence message, DialogInterface.OnClickListener okListener) {
-    new AlertDialog.Builder(getActivity(mContext)).setMessage(message).setPositiveButton("确定", okListener).setNegativeButton("取消", null).setCancelable(false).create().show();
+    new AlertDialog.Builder(getActivity(context)).setMessage(message).setPositiveButton("确定", okListener).setNegativeButton("取消", null).setCancelable(false).create().show();
   }
 
   public interface PermissionListener {

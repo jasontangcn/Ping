@@ -38,6 +38,9 @@ public class AudioManager {
     this.audioManagerListener = audioManagerListener;
   }
 
+  /*
+  1.
+   */
   public void prepare() {
     try {
       prepared = false;
@@ -91,6 +94,7 @@ public class AudioManager {
   public void release() {
     // 严格按照api流程进行
     if (mediaRecorder == null) return;
+
     /*
      * 这里处理异常
      */

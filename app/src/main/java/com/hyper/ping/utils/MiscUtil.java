@@ -42,10 +42,9 @@ public class MiscUtil {
 
   public static File getAppDir(Context context) {
     String dirPath = "";
-    //SD卡是否存在
-    boolean sdCardExists = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    boolean sdCardMounted = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     boolean rootDirExists = Environment.getExternalStorageDirectory().exists();
-    if (sdCardExists && rootDirExists) {
+    if (sdCardMounted && rootDirExists) {
       dirPath = String.format("%s/%s/", Environment.getExternalStorageDirectory().getAbsolutePath(), Constants.ROOT_PATH);
     } else {
       dirPath = String.format("%s/%s/", context.getApplicationContext().getFilesDir().getAbsolutePath(), Constants.ROOT_PATH);

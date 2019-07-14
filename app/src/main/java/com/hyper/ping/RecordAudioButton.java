@@ -53,6 +53,9 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
     this(context, null);
   }
 
+  /*
+
+   */
   public RecordAudioButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
@@ -72,7 +75,12 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
         return true;
       }
     });
+  }
 
+  // 发送一个handler的消息
+  @Override
+  public void prepared() {
+    stateHandler.sendEmptyMessage(MSG_AUDIO_PREPARED);
   }
 
   public boolean hasRecordPermission() {
@@ -165,12 +173,6 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
     vibrator.vibrate(pattern, -1);           //重复两次上面的pattern 如果只想震动一次，index设为-1
   }
 
-  // 发送一个handler的消息
-  @Override
-  public void prepared() {
-    stateHandler.sendEmptyMessage(MSG_AUDIO_PREPARED);
-  }
-
   //手指滑动监听
   @Override
   public boolean onTouchEvent(MotionEvent event) {
@@ -255,7 +257,7 @@ public class RecordAudioButton extends android.support.v7.widget.AppCompatButton
           break;
         case STATE_RECORDING:
           //setBackgroundColor(Color.rgb(0xcd, 0xcd, 0xcd));
-          setText(R.string.hang_up_finsh);//松开结束
+          setText(R.string.hang_up_finsh);
           setTextColor(Color.WHITE);
           //setBackgroundResource(R.drawable.chat_voice_btn_pressed);
           if (isRecording) {

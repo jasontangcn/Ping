@@ -30,7 +30,7 @@ public class AudioPromptManager {
     promptMoveUpCancelTV = (TextView) view.findViewById(R.id.promptMoveUpCancelTV);
     promptReleaseLayout = (RelativeLayout) view.findViewById(R.id.chatPromptReleaseLayout);
     promptReleaseCancelTV = (TextView) view.findViewById(R.id.promptReleaseCancelTV);
-    dialog.hide();
+    //dialog.hide();
     dialog.show();
   }
 
@@ -39,10 +39,11 @@ public class AudioPromptManager {
    */
   public void recording() {
     if (dialog != null && dialog.isShowing()) {
-      promptMoveUpLayout.setVisibility(View.VISIBLE);
-      promptMoveUpCancelTV.setVisibility(View.VISIBLE);
       promptReleaseLayout.setVisibility(View.GONE);
       promptReleaseCancelTV.setVisibility(View.GONE);
+
+      promptMoveUpLayout.setVisibility(View.VISIBLE);
+      promptMoveUpCancelTV.setVisibility(View.VISIBLE);
       promptMoveUpLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.yuyin_voice_1));
       promptMoveUpCancelTV.setText(R.string.up_for_cancel);
     }
@@ -82,7 +83,6 @@ public class AudioPromptManager {
       dialog.dismiss();
       dialog = null;
     }
-
   }
 
   public void updateVoiceLevel(int level) {

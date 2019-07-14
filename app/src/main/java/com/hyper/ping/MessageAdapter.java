@@ -64,7 +64,7 @@ public class MessageAdapter extends BaseAdapter {
   @Override
   public View getView(final int position, View convertView, ViewGroup parent) {
     final ChatMessage msg = messages.get(position);
-    Log.e(MediaManager.class.getSimpleName(), msg.toString());
+    Log.e(MessageAdapter.class.getSimpleName(), msg.toString());
     boolean isIncoming = msg.isIncoming();
     MessageAdapter.ViewHolder viewHolder;
     LayoutInflater inflater = LayoutInflater.from(context);
