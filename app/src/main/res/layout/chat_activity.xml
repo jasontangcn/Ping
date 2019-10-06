@@ -87,7 +87,7 @@
                 android:textSize="18sp" />
         </RelativeLayout>
 
-        <com.hyper.ping.RecordAudioButton
+        <com.fruits.ping.RecordAudioButton
             android:id="@+id/chatRecordAudioBTN"
             android:layout_width="match_parent"
             android:layout_height="40dp"
